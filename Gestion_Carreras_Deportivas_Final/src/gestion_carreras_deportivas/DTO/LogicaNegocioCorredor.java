@@ -20,6 +20,19 @@ public class LogicaNegocioCorredor {
         listaCorredor.add(corredor);
     }
     
+    public static void borrarCorredor(int posicion){
+           
+        listaCorredor.remove(posicion);
+    }
+    
+     public static void actualizarCorredor(Corredor corredor, int posicion){
+        listaCorredor.get(posicion).setNombre(corredor.getNombre());
+        listaCorredor.get(posicion).setDNI(corredor.getDNI());
+        listaCorredor.get(posicion).setFecha_nac(corredor.getFecha_nac());
+        listaCorredor.get(posicion).setDireccion(corredor.getDireccion());
+        listaCorredor.get(posicion).setTelefono(corredor.getTelefono());
+    }
+    
     public static List<Corredor> getListaCorredor(){
         return listaCorredor;
     }

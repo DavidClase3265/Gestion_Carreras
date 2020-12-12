@@ -5,20 +5,41 @@
  */
 package gestion_carreras_deportivas.GUI.Corredores;
 
+import gestion_carreras_deportivas.DTO.Corredor;
+import gestion_carreras_deportivas.DTO.LogicaNegocioCorredor;
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author David
  */
 public class CorredorModificar extends javax.swing.JDialog {
-
+        private LogicaNegocioCorredor logicaNegocioCorredor;
+        private String idAnterior="";
     /**
      * Creates new form CorredorModificar
      */
     public CorredorModificar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+     
     }
+ 
+    
 
+    
+   public void asignarParametros(String nombre, String dni, Date fecha, String direccion, String telefono){
+       System.out.print(nombre);
+       jTextFieldNombreCorredor.setText(nombre);
+       jTextFieldDNICorredor.setText(dni);
+       jSpinnerFecha_nacCorredor.setValue(fecha);
+       jTextFieldDireccionCorredor.setText(direccion);
+       jTextFieldTelefonoCorredor.setText(telefono); 
+       
+        idAnterior=nombre;
+          
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,21 +49,141 @@ public class CorredorModificar extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextFieldDireccionCorredor = new javax.swing.JTextField();
+        jTextFieldTelefonoCorredor = new javax.swing.JTextField();
+        jSpinnerFecha_nacCorredor = new javax.swing.JSpinner();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButtonAlta = new javax.swing.JButton();
+        jTextFieldNombreCorredor = new javax.swing.JTextField();
+        jTextFieldDNICorredor = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jTextFieldDireccionCorredor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDireccionCorredorActionPerformed(evt);
+            }
+        });
+
+        jSpinnerFecha_nacCorredor.setModel(new javax.swing.SpinnerDateModel());
+
+        jLabel1.setText("Nombre");
+
+        jLabel2.setText("DNI");
+
+        jLabel3.setText("fecha_nac");
+
+        jLabel4.setText("direccion");
+
+        jLabel5.setText("telefono");
+
+        jButtonAlta.setText("Modificar Corredor");
+        jButtonAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAltaActionPerformed(evt);
+            }
+        });
+
+        jTextFieldNombreCorredor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombreCorredorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTextFieldNombreCorredor)
+                        .addComponent(jTextFieldDNICorredor)
+                        .addComponent(jTextFieldDireccionCorredor)
+                        .addComponent(jSpinnerFecha_nacCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                    .addComponent(jTextFieldTelefonoCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+                .addGap(86, 86, 86))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButtonAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(134, 134, 134))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldNombreCorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextFieldDNICorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSpinnerFecha_nacCorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldDireccionCorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextFieldTelefonoCorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jButtonAlta)
+                .addGap(21, 21, 21))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldDireccionCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionCorredorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDireccionCorredorActionPerformed
+
+    private void jButtonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltaActionPerformed
+       
+       
+            String nombre = jTextFieldNombreCorredor.getText();
+            String DNI = jTextFieldDNICorredor.getText();
+            Date fecha = (Date)jSpinnerFecha_nacCorredor.getValue();
+            String direccion = jTextFieldDireccionCorredor.getText();
+            String telefono = jTextFieldTelefonoCorredor.getText();
+
+            Corredor corredor = new Corredor(nombre, DNI, fecha, direccion, telefono);
+            
+            List<Corredor> listaCorredor = logicaNegocioCorredor.getListaCorredor();
+        for(int i=0 ; i<listaCorredor.size(); i++){
+              if(listaCorredor.get(i).toArrayString()[0] == idAnterior){
+                  logicaNegocioCorredor.actualizarCorredor(corredor, i);
+              }
+          }
+         
+            setVisible(false);
+        
+    }//GEN-LAST:event_jButtonAltaActionPerformed
+
+    private void jTextFieldNombreCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreCorredorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNombreCorredorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -87,5 +228,16 @@ public class CorredorModificar extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAlta;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JSpinner jSpinnerFecha_nacCorredor;
+    private javax.swing.JTextField jTextFieldDNICorredor;
+    private javax.swing.JTextField jTextFieldDireccionCorredor;
+    private javax.swing.JTextField jTextFieldNombreCorredor;
+    private javax.swing.JTextField jTextFieldTelefonoCorredor;
     // End of variables declaration//GEN-END:variables
 }

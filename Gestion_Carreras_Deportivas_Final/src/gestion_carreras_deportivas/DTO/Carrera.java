@@ -19,16 +19,16 @@ public class Carrera {
   private Date fecha;
   private String lugar;
   private int numero_max;
-  /*private Map<Corredor, String> MapaCorredor = new HashMap<Corredor, String>();*/
+  private Map<Corredor, Integer> MapaCorredor = new HashMap<>();
 
     public Carrera(String nombre, Date fecha, String lugar, int numero_max) {
         this.nombre = nombre;
         this.fecha = fecha;
         this.lugar = lugar;
         this.numero_max = numero_max;
+
     }
 
-  
   
     public String getNombre() {
         return nombre;
@@ -61,14 +61,14 @@ public class Carrera {
     public void setNumero_max(int numero_max) {
         this.numero_max = numero_max;
     }
-/*
-    public Map<Corredor, String> getMapaCorredor() {
+
+    public Map<Corredor, Integer> getMapaCorredor() {
         return MapaCorredor;
     }
 
-    public void setMapaCorredor(Map<Corredor, String> MapaCorredor) {
+    public void setMapaCorredor(Map<Corredor, Integer> MapaCorredor) {
         this.MapaCorredor = MapaCorredor;
-    }*/
+    }
 
     public String[] toArrayString(){
         String[] s = new String[5];
@@ -76,10 +76,9 @@ public class Carrera {
         s[1] = fecha.toString();
         s[2] = lugar;
         s[3] = ""+numero_max+"";
-        /*s[4] = mapa_corredor;*/
+        s[4] = MapaCorredor.toString();
         return s;
     }
-  
   
     
 }

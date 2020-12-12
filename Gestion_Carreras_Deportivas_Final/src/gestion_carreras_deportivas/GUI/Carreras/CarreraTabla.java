@@ -9,9 +9,12 @@ import gestion_carreras_deportivas.DTO.Carrera;
 import gestion_carreras_deportivas.DTO.Corredor;
 import gestion_carreras_deportivas.DTO.LogicaNegocioCarrera;
 import gestion_carreras_deportivas.DTO.LogicaNegocioCorredor;
+import gestion_carreras_deportivas.GUI.Carreras.CorredoresDeCarreras.CorredoresDeCarreraTabla;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
@@ -52,22 +55,34 @@ public class CarreraTabla extends javax.swing.JDialog {
         jTableCarreras.setRowSorter(sorter);
         
         List<SortKey> sortKeys = new ArrayList<>();
-        sortKeys.add(new SortKey(0,SortOrder.ASCENDING));
-        sortKeys.add(new SortKey(1,SortOrder.ASCENDING));
-        sortKeys.add(new SortKey(2,SortOrder.ASCENDING));
         sortKeys.add(new SortKey(3,SortOrder.ASCENDING));
-        sortKeys.add(new SortKey(4,SortOrder.ASCENDING));
         sorter.setSortKeys(sortKeys);
         
         
     }
       
-    public void aniadirCarrera(Carrera carrera){
+    public void aniadirCarrera(Carrera carrera, Map<Corredor, Integer> MapaCorredor){
+
         DefaultTableModel dtm = (DefaultTableModel)jTableCarreras.getModel();
         dtm.addRow(carrera.toArrayString());
+        refrescarTabla();
+
     }
-    
+    /*
     public void borrarCarrera(Carrera carrera){
+       int row = jTableCarrera.getSelectedRow();
+       String nombre = jTableCarrera.getModel().getValueAt(row, 0).toString();
+   
+       Date fecha = jTableCarrera.getModel().getValueAt(row, 0);
+          String lugar = jTableCarrera.getModel().getValueAt(row, 0).toString();
+       int numero_max = jTableCarrera.getModel().getValueAt(row, 0).toString();
+       
+          List<Carrera> listaCarrera = logicaNegocioCarrera.getListaCarrera();
+            for(Carrera carrera : listaCarrera){
+            dtm.addRow(carrera.toArrayString());
+        }
+        jTableCarreras.setModel(dtm);
+        
        int resultado = JOptionPane.showConfirmDialog(this, "¿Quieres borrar este corredor?", "Corredor",JOptionPane.YES_NO_OPTION);
        if(resultado == JOptionPane.YES_OPTION)
            JOptionPane.showMessageDialog(this, "Borramos", "Corredor", JOptionPane.INFORMATION_MESSAGE);
@@ -76,15 +91,23 @@ public class CarreraTabla extends javax.swing.JDialog {
         
     }
     
-    
+
     public void iractualizarCarrera(Carrera carrera){
+         int row = jTableCarrera.getSelectedRow();
+       String nombre = jTableCarrera.getModel().getValueAt(row, 0).toString();
+   
+       Date fecha = jTableCarrera.getModel().getValueAt(row, 0);
+          String lugar = jTableCarrera.getModel().getValueAt(row, 0).toString();
+       int numero_max = jTableCarrera.getModel().getValueAt(row, 0).toString();
+     
+       Corredor corredorQueBorrar= new Corredor(nombre, dni,fecha, direccion, telefono);
         /*String nombre = carrera.getNombre();
         Date fecha = carrera.getFecha();
         String lugar = carrera.getLugar();
         int Numero_Max = carrera.getNumero_max();*/
         //pasar a
-        CarreraModificar.establecerDatos(carrera);
-    }
+        //CarreraModificar.establecerDatos(carrera);*/
+   /* }*/
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,6 +121,8 @@ public class CarreraTabla extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableCarreras = new javax.swing.JTable();
         jButtonVolverInicio = new javax.swing.JButton();
+        jButtonAlta = new javax.swing.JButton();
+        jButtonCorredoresCarrera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -121,27 +146,48 @@ public class CarreraTabla extends javax.swing.JDialog {
             }
         });
 
+        jButtonAlta.setText("Carrera Alta");
+        jButtonAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAltaActionPerformed(evt);
+            }
+        });
+
+        jButtonCorredoresCarrera.setText("VerCorredorCarrera");
+        jButtonCorredoresCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCorredoresCarreraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(159, 159, 159)
+                .addGap(20, 20, 20)
                 .addComponent(jButtonVolverInicio)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jButtonCorredoresCarrera)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jButtonVolverInicio)
-                .addGap(24, 24, 24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonVolverInicio)
+                    .addComponent(jButtonAlta)
+                    .addComponent(jButtonCorredoresCarrera))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -150,6 +196,17 @@ public class CarreraTabla extends javax.swing.JDialog {
     private void jButtonVolverInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverInicioActionPerformed
         setVisible(false);
     }//GEN-LAST:event_jButtonVolverInicioActionPerformed
+
+    private void jButtonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltaActionPerformed
+        CarreraCrear carreraCrear = new CarreraCrear(new javax.swing.JFrame(), true);
+        carreraCrear.setVisible(true);
+    }//GEN-LAST:event_jButtonAltaActionPerformed
+
+    private void jButtonCorredoresCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorredoresCarreraActionPerformed
+        CorredoresDeCarreraTabla carreraCorredores = new CorredoresDeCarreraTabla(new javax.swing.JFrame(), true);
+        carreraCorredores.listaCorredorAsignados=corredores;
+        carreraCorredores.setVisible(true);
+    }//GEN-LAST:event_jButtonCorredoresCarreraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,6 +251,8 @@ public class CarreraTabla extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAlta;
+    private javax.swing.JButton jButtonCorredoresCarrera;
     private javax.swing.JButton jButtonVolverInicio;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableCarreras;

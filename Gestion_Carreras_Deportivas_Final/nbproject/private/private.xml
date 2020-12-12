@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/GUI/PantallaPrincipal.java</file>
             <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/GUI/Corredores/CorredorCrear.java</file>
             <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/GUI/Carreras/CarreraCrear.java</file>
             <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/DTO/Carrera.java</file>
-            <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/DTO/Corredor.java</file>
-            <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/GUI/Carreras/CarreraTabla.java</file>
+            <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/GUI/Carreras/CarreraModificar.java</file>
             <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/DTO/LogicaNegocioCorredor.java</file>
+            <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/GUI/Carreras/CarreraTabla.java</file>
             <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/GUI/Corredores/CorredorTabla.java</file>
             <file>file:/C:/Users/David/Documents/NetBeansProjects/Gestion_Carreras_Deportivas_Final/src/gestion_carreras_deportivas/DTO/LogicaNegocioCarrera.java</file>
         </group>

@@ -6,7 +6,18 @@
 package gestion_carreras_deportivas.GUI.Carreras;
 
 import gestion_carreras_deportivas.DTO.Carrera;
+import gestion_carreras_deportivas.DTO.Corredor;
+import gestion_carreras_deportivas.DTO.LogicaNegocioCarrera;
+import gestion_carreras_deportivas.DTO.LogicaNegocioCorredor;
+import gestion_carreras_deportivas.GUI.Corredores.CorredorTabla;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,13 +27,24 @@ import javax.swing.JOptionPane;
 public class CarreraCrear extends javax.swing.JDialog {
 
      private CarreraTabla carreraTabla;
-     
+     private LogicaNegocioCarrera logicaNegocioCarrera;
+     private LogicaNegocioCorredor logicaNegocioCorredor;
     /**
      * Creates new form CarreraCrear
      */
     public CarreraCrear(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        List<Corredor> listaCorredor = LogicaNegocioCorredor.getListaCorredor();
+        
+           DefaultListModel model = new DefaultListModel<>();
+           for(int i=0 ; i<listaCorredor.size(); i++){
+           model.addElement(listaCorredor.get(i).toArrayString()[0]);
+           }
+       
+           JList lista = jListListaCorredores; 
+           lista.setModel(model);
     }
 
    
@@ -36,26 +58,27 @@ public class CarreraCrear extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButtonCrearCorredor = new javax.swing.JButton();
+        jButtonCrearCarrera = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldNombreCarrera = new javax.swing.JTextField();
         jTextFieldLugarCarrera = new javax.swing.JTextField();
-        jSpinnerFechaCarrera = new javax.swing.JSpinner();
         jSpinnerNumeroMaximoParticipantes = new javax.swing.JSpinner();
-        jComboBoxListaCorredores = new javax.swing.JComboBox<>();
         jButtonVolver = new javax.swing.JButton();
+        jSpinnerFecha_nacCorredor = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListListaCorredores = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Nombre de la carrera");
 
-        jButtonCrearCorredor.setText("Crear Corredor");
-        jButtonCrearCorredor.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCrearCarrera.setText("Crear Carrera");
+        jButtonCrearCarrera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCrearCorredorActionPerformed(evt);
+                jButtonCrearCarreraActionPerformed(evt);
             }
         });
 
@@ -67,12 +90,6 @@ public class CarreraCrear extends javax.swing.JDialog {
 
         jLabel5.setText("Lista Corredores");
 
-        jTextFieldNombreCarrera.setText("jTextField1");
-
-        jTextFieldLugarCarrera.setText("jTextField2");
-
-        jComboBoxListaCorredores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jButtonVolver.setText("Volver");
         jButtonVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,33 +97,39 @@ public class CarreraCrear extends javax.swing.JDialog {
             }
         });
 
+        jSpinnerFecha_nacCorredor.setModel(new javax.swing.SpinnerDateModel());
+
+        jScrollPane1.setViewportView(jListListaCorredores);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jButtonCrearCarrera))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldNombreCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldLugarCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinnerFechaCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinnerNumeroMaximoParticipantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxListaCorredores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jTextFieldLugarCarrera)
+                            .addComponent(jSpinnerFecha_nacCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSpinnerNumeroMaximoParticipantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jTextFieldNombreCarrera)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jButtonCrearCorredor)
-                        .addGap(42, 42, 42)
-                        .addComponent(jButtonVolver)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonVolver)
+                        .addGap(44, 44, 44)))
+                .addGap(43, 43, 43))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +141,7 @@ public class CarreraCrear extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jSpinnerFechaCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinnerFecha_nacCorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -128,12 +151,12 @@ public class CarreraCrear extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(jSpinnerNumeroMaximoParticipantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBoxListaCorredores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCrearCorredor)
+                    .addComponent(jButtonCrearCarrera)
                     .addComponent(jButtonVolver))
                 .addGap(38, 38, 38))
         );
@@ -145,18 +168,18 @@ public class CarreraCrear extends javax.swing.JDialog {
            String nombre = jTextFieldNombreCarrera.getText();
            String lugar = jTextFieldLugarCarrera.getText();
            if(nombre == null || lugar == null || "".equals(nombre) || "".equals(lugar)){
-               JOptionPane.showMessageDialog(this, "No puede quedar vacio ningun campo", "Error", JOptionPane.ERROR);
+               JOptionPane.showMessageDialog(this, "No puede quedar vacio ningun campo", "Error", JOptionPane.ERROR_MESSAGE);
                        return false;
            }
            
            
            int numeroMax = (int)jSpinnerNumeroMaximoParticipantes.getValue();
-           Date fecha = (Date)jSpinnerFechaCarrera.getValue();
+           /*Date fecha = (Date)jSpinnerFechaCarrera.getValue();*/
            try{
              /*  Integer.parseInt(jSpinnerNumeroMaximoParticipantes.get)*/
            }
            catch (NumberFormatException e){
-               JOptionPane.showMessageDialog(this, "Tiene que ser un entero", "Error", JOptionPane.ERROR);
+               JOptionPane.showMessageDialog(this, "Tiene que ser un entero", "Error", JOptionPane.ERROR_MESSAGE);
                return false;
            }
          /*  List<Corredor> corredores;
@@ -168,18 +191,55 @@ public class CarreraCrear extends javax.swing.JDialog {
         setVisible(false);
     }//GEN-LAST:event_jButtonVolverActionPerformed
 
-    private void jButtonCrearCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCorredorActionPerformed
+    private void jButtonCrearCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearCarreraActionPerformed
         if(validarFormulario()){
             String nombre = jTextFieldNombreCarrera.getText();
             String lugar = jTextFieldLugarCarrera.getText();
             int numeroMax = (int)jSpinnerNumeroMaximoParticipantes.getValue();
-            Date fecha = (Date)jSpinnerFechaCarrera.getValue();
+            Date fecha = (Date)jSpinnerFecha_nacCorredor.getValue();
+            List<Corredor> CorredoresSeleccionadosFinal = new ArrayList<Corredor>();;
+              
+            List<String> listaF = jListListaCorredores.getSelectedValuesList();
+            List<Corredor> listaCorredor = logicaNegocioCorredor.getListaCorredor();
             
-            Carrera carrera = new Carrera(nombre, fecha, lugar, numeroMax);
-            carreraTabla.aniadirCarrera(carrera);
-            setVisible(false);
+            for(Corredor corredor : listaCorredor){
+            System.out.println(corredor.getNombre());
+                    for(String nombreC : listaF){
+                        if(corredor.getNombre().equals(nombreC)){
+                            System.out.println("mismo");
+                            CorredoresSeleccionadosFinal.add(corredor);
+                            System.out.println(corredor);
+                        }
+                   
+                    }
+             }
+
+            
+            Map<Corredor, Integer> MapaCorredor = new HashMap<>();
+            
+          
+            
+            int k=0;
+            for(Corredor corredor : CorredoresSeleccionadosFinal){
+                MapaCorredor.put(corredor, k);	
+                k++;
+            }
+            
+         
+            	
+             CarreraTabla carreraTabla = new CarreraTabla(new javax.swing.JFrame(), true);
+             
+             Carrera carrera = new Carrera(nombre, fecha, lugar, numeroMax);
+             
+              carrera.setMapaCorredor(MapaCorredor);
+             logicaNegocioCarrera.aniadirCarrera(carrera);
+             carreraTabla.aniadirCarrera(carrera, MapaCorredor);
+             setVisible(false);
+            
+            
+            
         }
-    }//GEN-LAST:event_jButtonCrearCorredorActionPerformed
+    }//GEN-LAST:event_jButtonCrearCarreraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,15 +284,16 @@ public class CarreraCrear extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCrearCorredor;
+    private javax.swing.JButton jButtonCrearCarrera;
     private javax.swing.JButton jButtonVolver;
-    private javax.swing.JComboBox<String> jComboBoxListaCorredores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JSpinner jSpinnerFechaCarrera;
+    private javax.swing.JList<String> jListListaCorredores;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerFecha_nacCorredor;
     private javax.swing.JSpinner jSpinnerNumeroMaximoParticipantes;
     private javax.swing.JTextField jTextFieldLugarCarrera;
     private javax.swing.JTextField jTextFieldNombreCarrera;

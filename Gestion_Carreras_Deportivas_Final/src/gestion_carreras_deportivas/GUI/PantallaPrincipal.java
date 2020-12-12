@@ -5,15 +5,19 @@
  */
 package gestion_carreras_deportivas.GUI;
 
+import gestion_carreras_deportivas.DTO.Corredor;
+import gestion_carreras_deportivas.DTO.LogicaNegocioCorredor;
 import gestion_carreras_deportivas.GUI.Carreras.CarreraTabla;
 import gestion_carreras_deportivas.GUI.Corredores.CorredorTabla;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author David
  */
 public class PantallaPrincipal extends javax.swing.JFrame {
-
+ private LogicaNegocioCorredor logicaNegocioCorredor;
     /**
      * Creates new form PantallaPrincipal
      */
@@ -88,8 +92,16 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonIrCarrerasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrCarrerasActionPerformed
-        CarreraTabla carreraTabla = new CarreraTabla(this, true);
-        carreraTabla.setVisible(true);
+        List<Corredor> listaCorredor = logicaNegocioCorredor.getListaCorredor();
+        
+        if(listaCorredor.size()==0 || listaCorredor.get(0).getNombre()==""){
+            JOptionPane.showMessageDialog(this, "No puedes crear una carrera sin corredores", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            CarreraTabla carreraTabla = new CarreraTabla(this, true);
+            carreraTabla.setVisible(true);
+        }
+        
     }//GEN-LAST:event_jButtonIrCarrerasActionPerformed
 
     private void jButtonIrCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIrCorredoresActionPerformed
