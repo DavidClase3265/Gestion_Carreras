@@ -19,6 +19,19 @@ public class LogicaNegocioCarrera {
         listaCarrera.add(carrera);
     }
     
+    public static void borrarCarrera(int posicion){ 
+        listaCarrera.remove(posicion);
+    }
+    
+     public static void actualizarCarrera(Carrera carrera, int posicion){ 
+        listaCarrera.get(posicion).setNombre(carrera.getNombre());
+        listaCarrera.get(posicion).setFecha(carrera.getFecha());
+        listaCarrera.get(posicion).setLugar(carrera.getLugar());
+        listaCarrera.get(posicion).setNumero_max(carrera.getNumero_max());
+        listaCarrera.get(posicion).setMapaCorredor(carrera.getMapaCorredor());
+    }
+      
+          
     public static List<Carrera> getListaCarrera(){
         return listaCarrera;
     }

@@ -5,14 +5,20 @@
  */
 package gestion_carreras_deportivas.GUI.Carreras.CorredoresDeCarreras;
 
+import gestion_carreras_deportivas.DTO.Carrera;
+
+import gestion_carreras_deportivas.DTO.Componente.pruebarelojdigital.Reloj;
 import gestion_carreras_deportivas.DTO.Corredor;
+import gestion_carreras_deportivas.DTO.LogicaNegocioCarrera;
 import gestion_carreras_deportivas.DTO.LogicaNegocioCorredor;
+import gestion_carreras_deportivas.GUI.Carreras.CarreraTabla;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
@@ -26,22 +32,42 @@ import javax.swing.table.TableRowSorter;
 public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
 
     private LogicaNegocioCorredor logicaNegocioCorredor;
+    private LogicaNegocioCarrera logicaNegocioCarrera;
+    private static List<Corredor> listaCorredoresDeCarrera;
+    public static int posicion;
     /**
      * Creates new form CorredoresDeCarreraTabla
      */
-    public CorredoresDeCarreraTabla(java.awt.Frame parent, boolean modal) {
+    public CorredoresDeCarreraTabla(java.awt.Frame parent, boolean modal, Carrera carrera, int posicion) {
         super(parent, modal);
         initComponents();
-        refrescarTabla();
+        List<Corredor> listaCorredoresDeCarrera = new ArrayList<Corredor>(carrera.getMapaCorredor().keySet());
+        this.listaCorredoresDeCarrera=listaCorredoresDeCarrera;
+        this.posicion=posicion;
+        this.carrera=carrera;
+         
+        List<Corredor> listaCorredor = LogicaNegocioCorredor.getListaCorredor();
+        
+           DefaultListModel model = new DefaultListModel<>();
+           for(int i=0 ; i<listaCorredor.size(); i++){
+           model.addElement(listaCorredor.get(i).toArrayString()[0]);
+           }
+       
+           JList listaCorredores = jListListaCorredores; 
+           listaCorredores.setModel(model);
+ 
+           
+        refrescarTabla(listaCorredoresDeCarrera);
     }
     
-    private List<Corredor> listaCorredorAsignados;
-
-    private void refrescarTabla(){
+    public List<Corredor> listaCorredorAsignados;
+    public static Carrera carrera;
+    
+    private void refrescarTabla(List<Corredor> lista){
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new String[]{"Nombre", "DNI", "Fecha", "Direccion", "Telefono"});
 
-        List<Corredor> listaCorredorAsignados=this.listaCorredorAsignados;
+        List<Corredor> listaCorredorAsignados=lista;
   
         for(Corredor corredor : listaCorredorAsignados){
             dtm.addRow(corredor.toArrayString());
@@ -62,7 +88,9 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
            DefaultListModel model = new DefaultListModel<>();
            for(int i=0 ; i<listaCorredor.size(); i++){
            model.addElement(listaCorredor.get(i).toArrayString()[0]);
-           }
+           } 
+       
+           
     }
     
  
@@ -80,7 +108,8 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
         jButtonCorredorACarreraAsignar = new javax.swing.JButton();
         jButtonCorredorACarreraEliminar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jListListaCorredores = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -98,6 +127,11 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jTableCorredoresCarrera);
 
         jButtonCorredorACarreraAsignar.setText("Asignar Corredor a la Carrera");
+        jButtonCorredorACarreraAsignar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCorredorACarreraAsignarActionPerformed(evt);
+            }
+        });
 
         jButtonCorredorACarreraEliminar.setText("Eliminar Corredor a la Carrera");
         jButtonCorredorACarreraEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,12 +140,14 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jScrollPane2.setViewportView(jListListaCorredores);
+
+        jButton1.setText("Dar Inicio a la carrera");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,7 +165,9 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
                         .addComponent(jButtonCorredorACarreraEliminar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(57, 57, 57)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -141,59 +179,81 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCorredorACarreraAsignar)
                     .addComponent(jButtonCorredorACarreraEliminar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jButton1)))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ 
     private void jButtonCorredorACarreraEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorredorACarreraEliminarActionPerformed
         borrarCorredor();
-        refrescarTabla();
+      
     }//GEN-LAST:event_jButtonCorredorACarreraEliminarActionPerformed
+
+    private void jButtonCorredorACarreraAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorredorACarreraAsignarActionPerformed
+        aniadirCorredor();
+    }//GEN-LAST:event_jButtonCorredorACarreraAsignarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Reloj reloj = new Reloj(new javax.swing.JFrame(), true);
+        reloj.setVisible(true);
+              
+             
+    }//GEN-LAST:event_jButton1ActionPerformed
  
+    public void aniadirCorredor(){
+       String NombreCorredor = jListListaCorredores.getSelectedValue();
+       List<Corredor> listaCorredor = LogicaNegocioCorredor.getListaCorredor();
+       List<Carrera> listaCarrera = LogicaNegocioCarrera.getListaCarrera();
+ 
+         for(Corredor corredor : listaCorredor){
+             System.out.println(corredor.getNombre());
+              System.out.println(NombreCorredor);
+             if(corredor.getNombre().equals(NombreCorredor)){
+                carrera.getMapaCorredor().put(corredor, carrera.getMapaCorredor().size()+1);
+            }
+        }
+      /*
+        LogicaNegocioCarrera.actualizarCarrera(carrera, posicion);  */
+    }
+    
+    
     public void borrarCorredor(){
-       DefaultTableModel dtm = (DefaultTableModel)jTableCorredor.getModel();
+      DefaultTableModel dtm = (DefaultTableModel)jTableCorredoresCarrera.getModel();
        List<Corredor> listaCorredor = this.listaCorredorAsignados;
        
-       //CORREDOR DE ESA LINEA
-       int row = jTableCorredor.getSelectedRow();
-       String nombre = jTableCorredor.getModel().getValueAt(row, 0).toString();
-       String dni = jTableCorredor.getModel().getValueAt(row, 1).toString();
-       String fecha = jTableCorredor.getModel().getValueAt(row, 2).toString();
-       SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-       Date fecha2=new Date();
-        try{
-        fecha2=sdf.parse(fecha);
-        }
-       catch(ParseException e){}
+       //CORREDOR DE ESA LINEA  
+       int row = jTableCorredoresCarrera.getSelectedRow();
+       String nombre = jTableCorredoresCarrera.getModel().getValueAt(row, 0).toString();
        
-       String direccion = jTableCorredor.getModel().getValueAt(row, 3).toString();
-       String telefono = jTableCorredor.getModel().getValueAt(row, 4).toString();
-       Corredor corredorQueBorrar= new Corredor(nombre, dni,fecha2, direccion, telefono);
   
        int resultado = JOptionPane.showConfirmDialog(this, "¿Quieres borrar este corredor?", "Corredor",JOptionPane.YES_NO_OPTION);
        if(resultado == JOptionPane.YES_OPTION){
            JOptionPane.showMessageDialog(this, "Borramos", "Corredor", JOptionPane.INFORMATION_MESSAGE);
  
-           
-          for(int i=0 ; i<listaCorredor.size(); i++){
-              if(listaCorredor.get(i).toArrayString()[0] == corredorQueBorrar.toArrayString()[0]){
-                  logicaNegocioCorredor.borrarCorredor(i);
-              }
-          }
- 
+            for(Corredor corredor : listaCorredor){
+             if(corredor.equals(nombre)){
+                  carrera.getMapaCorredor().put(corredor, carrera.getMapaCorredor().size()+1);
+            }
+        }
+          
+           LogicaNegocioCarrera.borrarCarrera(posicion);
          dtm.removeRow(row);
-        jTableCorredor.setModel(dtm);
+        jTableCorredoresCarrera.setModel(dtm);
        }
        else if (resultado == JOptionPane.NO_OPTION){
            JOptionPane.showMessageDialog(this, "No Borramos", "Corredor", JOptionPane.INFORMATION_MESSAGE);   
-       } 
+       }
         
     }
-    
+  
     /**
      * @param args the command line arguments
      */
@@ -224,7 +284,8 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CorredoresDeCarreraTabla dialog = new CorredoresDeCarreraTabla(new javax.swing.JFrame(), true);
+                CorredoresDeCarreraTabla dialog;
+                dialog = new CorredoresDeCarreraTabla(new javax.swing.JFrame(), true, carrera, posicion);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -237,9 +298,10 @@ public class CorredoresDeCarreraTabla extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCorredorACarreraAsignar;
     private javax.swing.JButton jButtonCorredorACarreraEliminar;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jListListaCorredores;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableCorredoresCarrera;

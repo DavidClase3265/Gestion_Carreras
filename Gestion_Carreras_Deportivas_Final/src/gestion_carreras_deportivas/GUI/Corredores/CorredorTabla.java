@@ -51,21 +51,10 @@ public class CorredorTabla extends javax.swing.JDialog {
        DefaultTableModel dtm = (DefaultTableModel)jTableCorredor.getModel();
        List<Corredor> listaCorredor = logicaNegocioCorredor.getListaCorredor();
        
-       //CORREDOR DE ESA LINEA
+       //CORREDOR DE ESA LINEA  
        int row = jTableCorredor.getSelectedRow();
        String nombre = jTableCorredor.getModel().getValueAt(row, 0).toString();
-       String dni = jTableCorredor.getModel().getValueAt(row, 1).toString();
-       String fecha = jTableCorredor.getModel().getValueAt(row, 2).toString();
-       SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-       Date fecha2=new Date();
-        try{
-        fecha2=sdf.parse(fecha);
-        }
-       catch(ParseException e){}
        
-       String direccion = jTableCorredor.getModel().getValueAt(row, 3).toString();
-       String telefono = jTableCorredor.getModel().getValueAt(row, 4).toString();
-       Corredor corredorQueBorrar= new Corredor(nombre, dni,fecha2, direccion, telefono);
   
        int resultado = JOptionPane.showConfirmDialog(this, "¿Quieres borrar este corredor?", "Corredor",JOptionPane.YES_NO_OPTION);
        if(resultado == JOptionPane.YES_OPTION){
@@ -73,7 +62,7 @@ public class CorredorTabla extends javax.swing.JDialog {
  
            
           for(int i=0 ; i<listaCorredor.size(); i++){
-              if(listaCorredor.get(i).toArrayString()[0] == corredorQueBorrar.toArrayString()[0]){
+              if(listaCorredor.get(i).toArrayString()[0].equals(nombre)){
                   logicaNegocioCorredor.borrarCorredor(i);
               }
           }

@@ -155,9 +155,9 @@ public class CarreraCrear extends javax.swing.JDialog {
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCrearCarrera)
-                    .addComponent(jButtonVolver))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonVolver)
+                    .addComponent(jButtonCrearCarrera))
                 .addGap(38, 38, 38))
         );
 
@@ -197,7 +197,7 @@ public class CarreraCrear extends javax.swing.JDialog {
             String lugar = jTextFieldLugarCarrera.getText();
             int numeroMax = (int)jSpinnerNumeroMaximoParticipantes.getValue();
             Date fecha = (Date)jSpinnerFecha_nacCorredor.getValue();
-            List<Corredor> CorredoresSeleccionadosFinal = new ArrayList<Corredor>();;
+            List<Corredor> CorredoresSeleccionadosFinal = new ArrayList<Corredor>();
               
             List<String> listaF = jListListaCorredores.getSelectedValuesList();
             List<Corredor> listaCorredor = logicaNegocioCorredor.getListaCorredor();
@@ -214,24 +214,19 @@ public class CarreraCrear extends javax.swing.JDialog {
                     }
              }
 
-            
             Map<Corredor, Integer> MapaCorredor = new HashMap<>();
             
-          
-            
+
             int k=0;
             for(Corredor corredor : CorredoresSeleccionadosFinal){
                 MapaCorredor.put(corredor, k);	
                 k++;
             }
-            
-         
-            	
+	
              CarreraTabla carreraTabla = new CarreraTabla(new javax.swing.JFrame(), true);
-             
              Carrera carrera = new Carrera(nombre, fecha, lugar, numeroMax);
              
-              carrera.setMapaCorredor(MapaCorredor);
+             carrera.setMapaCorredor(MapaCorredor);
              logicaNegocioCarrera.aniadirCarrera(carrera);
              carreraTabla.aniadirCarrera(carrera, MapaCorredor);
              setVisible(false);

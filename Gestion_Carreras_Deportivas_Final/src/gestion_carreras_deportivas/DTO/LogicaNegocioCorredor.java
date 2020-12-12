@@ -20,8 +20,7 @@ public class LogicaNegocioCorredor {
         listaCorredor.add(corredor);
     }
     
-    public static void borrarCorredor(int posicion){
-           
+    public static void borrarCorredor(int posicion){ 
         listaCorredor.remove(posicion);
     }
     
